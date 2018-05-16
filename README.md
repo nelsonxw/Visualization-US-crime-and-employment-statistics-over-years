@@ -18,9 +18,9 @@
 ### Inspiring visualizations
 
 + [The Wealth & Health of Nations](https://bost.ocks.org/mike/nations/)  
-![image1](images/Wealth_and_health_of_nations.png)
-+ [Drug adverse events](https://openfda-visualization.firebaseapp.com/#/)
-![image2](images/Drug_adverse_events.png)
+![image1](images/Wealth_and_health_of_nations.PNG)
++ [Drug adverse events](https://openfda-visualization.firebaseapp.com/#/)  
+![image2](images/Drug_adverse_events.PNG)
 
 ### Sketch of design:
 
