@@ -1,5 +1,12 @@
 # Project 2 Proposal - Nelson
 
+### Team Members:
++ Aditi Sharma
++ Bill Wilson
++ Gayatri Pingale
++ Nelson Wang
+
+
 ### Topic: Best States to Live Based on 50 Years Data
 
 + Taking a new approach to analyze and present a classical question asked by many people before us.
@@ -15,14 +22,14 @@
 + [Bureau of Labor Statistics](https://www.bls.gov/lau/rdscnp16.htm)
 + [Uniform Crime Reporting Statistics](https://www.bjs.gov/ucrdata/Search/Crime/State/StatebyState.cfm?NoVariables=Y&CFID=247193930&CFTOKEN=b6105fea0ed761eb-FDFE448E-D159-1EA8-A5EFE168BA588D99)
 
-### Inspiring visualizations
+### Inspiring Visualizations
 
 + [The Wealth & Health of Nations](https://bost.ocks.org/mike/nations/)  
 ![image1](images/Wealth_and_health_of_nations.PNG)
 + [Drug adverse events](https://openfda-visualization.firebaseapp.com/#/)  
 ![image2](images/Drug_adverse_events.PNG)
 
-### Sketch of design:
+### Sketch of Design:
 
 + In the left side (2/3 of page) create a scatter plot for state data over 50 years, allow animation with a play button (similar to the wealth & health chart)
 + In the right side (1/3 of page) create a bar chart or pie chart when the user click on any specific state for a particular year on the left chart.  Add animations and transitions similar to the drug adverse events chart
