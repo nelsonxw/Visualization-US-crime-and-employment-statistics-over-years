@@ -1,4 +1,4 @@
-# Project 2 Proposal - Nelson
+# Project 2 Proposal
 
 ### Team Members:
 + Aditi Sharma
