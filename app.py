@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 dbfile = os.path.join('db', 'state_data.db')
-engine = create_engine(f"sqlite:///{dbfile}")
+engine = create_engine("sqlite:///db/state_data.db")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -24,6 +24,9 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # Save references to each table
+
+print(Base.classes.keys())
+
 state_data = Base.classes.state_final_data
 # Create our session (link) from Python to the DB
 session = Session(engine)
@@ -37,12 +40,11 @@ def index():
 
 @app.route('/chart')
 def chart_data():
-    """Return a list of state_data"""
-
-    # Use Pandas to perform the sql query
-    stmt =session.query(state_data).statement
-    df = pd.read_sql_query(stmt, session.bind)
-    #df = pd.read_csv("masterData.csv")
+	"""Return a list of state_data"""
+	# Use Pandas to perform the sql query
+	stmt =session.query(state_data).statement
+	df = pd.read_sql_query(stmt, session.bind)
+    # df = pd.read_csv("masterData.csv")
 	indexed_df = df.set_index(["state_abbrv","state_name","year"])
 	output = []
 	for state, sub_df in indexed_df.groupby(level=["state_abbrv","state_name"]):
@@ -68,12 +70,10 @@ def chart_data():
 		   "robberyRate":murderRate_df.values.tolist()[0],
 		   "assaultRate":murderRate_df.values.tolist()[0],
 		  }
-   output.append(data)
-with open('chartData.json', 'w') as json_output:
-   json.dump({"chartData":output}, json_output)
+		output.append(data)
 
-    # Return a list of the column names (sample names)
-    return json_output
+	# Return a list of the column names (sample names)
+	return jsonify(output)
 
 
 if __name__ == "__main__":

@@ -85,7 +85,7 @@ var toolTip = d3.tip()
 bubbleChartGroup.call(toolTip)
 
 /*local data*/
-d3.json("data/chartData.json", function(data) {
+d3.json("static/data/chartData.json", function(data) {
 	var bubbleData = data.chartData;
   /*create a list of years from the data*/
   var yearList = bubbleData[0].year;    
