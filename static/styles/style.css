@@ -1,6 +1,10 @@
-#chart {
+#bubble_Chart {
     font-family: "Helvetica Neue";
-    margin: 60px;
+}
+
+#extra_Chart {
+    font-family: "Helvetica Neue";
+    margin-top: 50px;
 }
 
 .circle { stroke: #000; }
@@ -16,11 +20,18 @@
     fill: #ddd;
 }
 
-.overlay {
+.overlay_b {
     fill: none;
     pointer-events: all;
     cursor: ew-resize;
 }
+
+.overlay_e {
+    fill: none;
+    pointer-events: all;
+
+}
+
   .d3-tip {
   font-family: "Helvetica Neue";
   font-size: 14px;
@@ -95,4 +106,62 @@ hr {
   width: 45px;
   cursor: pointer;
   height: 25px;
+}
+
+#barButton {
+  position: absolute;
+  top: 75px;
+  left:9px;
+  background: #4682B4;
+  padding-left: 7px;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+
+  width: 30px;
+  cursor: pointer;
+  height: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: "Helvetica Neue";
+}
+
+
+
+#pieButton {
+  position: absolute;
+  top: 75px;
+  left:40px;
+  background: #4682B4;
+  padding-left: 7px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+
+  width: 30px;
+  cursor: pointer;
+  height: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: "Helvetica Neue";
+}
+
+.inactive {
+  display: none;
+}
+
+.axisHidden line {
+  stroke: white;
+}
+
+.axisHidden path {
+  stroke: white;
+}
+
+#footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
 }

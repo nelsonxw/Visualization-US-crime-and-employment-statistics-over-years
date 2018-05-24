@@ -12,20 +12,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
     <!-- import local CSS -->
     <link rel="stylesheet" href="{{url_for('static',filename = 'styles/style.css')}}">
-	
-	
 
 </head>
 <body>
+	<div class="row">
+		<div class="col-sm-8">
+			<div id="bubble_Chart"></div>
+			<div id="playButton"></div>
+		</div>
+		<div class="col-sm-4">
+			<div id="extra_Chart">
+				<div id="barButton" class="inactive">Bar</div>
+				<div id="pieButton" class="inactive">Pie</div>	
+			</div>
+			
+			
+		</div>
+
+	</div>
 	
-	<div id="bubbleChart"></div>
-	<div id="playButton"></div>
 
 	<script type="text/javascript" src="{{url_for('static',filename = 'javascripts/index.js')}}"></script>
 </body>
 <footer class="footer-content">
 	<div id="footer">
-	  <!-- <p class="text-center">&copy; Copyright Nelson Wang UT Data Boot Camp 2018</p> -->
+	  <p class="text-center"><strong>Project Team Members: Aditi Sharma, Bill Wilsom, Gayatri Pingale, Nelson Wang</strong></p>
 	</div>
 </footer>
 </html>

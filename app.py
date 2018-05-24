@@ -38,7 +38,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/chart')
+@app.route('/chartdata')
 def chart_data():
 	"""Return a list of state_data"""
 	# Use Pandas to perform the sql query
@@ -66,9 +66,9 @@ def chart_data():
 		   "unemploymentRate":unemploymentRate_df.values.tolist()[0],
 		   "crimeRate":violentCrimeRate_df.values.tolist()[0],
 		   "murderRate":murderRate_df.values.tolist()[0],
-		   "rapeRate":murderRate_df.values.tolist()[0],
-		   "robberyRate":murderRate_df.values.tolist()[0],
-		   "assaultRate":murderRate_df.values.tolist()[0],
+		   "rapeRate":rapeRate_df.values.tolist()[0],
+		   "robberyRate":robberyRate_df.values.tolist()[0],
+		   "assaultRate":assaultRate_df.values.tolist()[0],
 		  }
 		output.append(data)
 
