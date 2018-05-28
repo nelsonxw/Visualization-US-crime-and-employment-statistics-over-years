@@ -15,28 +15,36 @@
 
 </head>
 <body>
+	<div id="title" class="text-center">
+		<h1>US Crime and Employment Statistics Over Years (1976 - 2014)</h1>
+	</div>
+
 	<div class="row">
-		<div class="col-sm-8">
+		<div class="col-sm-7">
 			<div id="bubble_Chart"></div>
-			<div id="playButton"></div>
+			<div>
+				<ul id="observation">
+					<li>Obs 1</li>
+					<li>Obs 2</li>
+					<li>Obs 3</li>
+					<li>Obs 4</li>
+					<li>Obs 5</li>
+				</ul>
+			</div>
 		</div>
-		<div class="col-sm-4">
-			<div id="extra_Chart">
+		<div class="col-sm-5">
+			<div id="extra_Chart" style="height: 300px;">
 				<div id="barButton" class="inactive">Bar</div>
 				<div id="pieButton" class="inactive">Pie</div>	
 			</div>
-			
-			
+			<div id="map"></div>
 		</div>
-
 	</div>
-	
-
+		
 	<script type="text/javascript" src="{{url_for('static',filename = 'javascripts/index.js')}}"></script>
+
+	<footer id="footer" class="text-center">
+		  <h5 id="teamMembers">Project Team Members: Aditi Sharma, Bill Wilsom, Gayatri Pingale, Nelson Wang</h5>
+	</footer>
 </body>
-<footer class="footer-content">
-	<div id="footer">
-	  <p class="text-center"><strong>Project Team Members: Aditi Sharma, Bill Wilsom, Gayatri Pingale, Nelson Wang</strong></p>
-	</div>
-</footer>
 </html>

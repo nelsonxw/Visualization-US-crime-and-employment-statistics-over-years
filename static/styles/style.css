@@ -1,9 +1,39 @@
-#bubble_Chart {
-    font-family: "Helvetica Neue";
+html body div {
+  font-family: "Helvetica Neue";
+  margin: 0;
+  padding: 0;
+  background-color: #DDDDDD;
 }
 
+#title {
+  cursor: pointer;
+}
+
+#footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #DDDDDD;
+
+}
+
+#observation {
+  color: #DDDDDD;
+}
+
+#teamMembers {
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue";
+  font-weight: bold;
+}
+
+
+
 #extra_Chart {
-    font-family: "Helvetica Neue";
+    
     margin-top: 50px;
 }
 
@@ -16,8 +46,8 @@
 }
 
 .year.label {
-    font: 180px "Helvetica Neue";
-    fill: #ddd;
+    font-size: 160px;
+    fill: gray;
 }
 
 .overlay_b {
@@ -33,7 +63,7 @@
 }
 
   .d3-tip {
-  font-family: "Helvetica Neue";
+  
   font-size: 14px;
   line-height: 1.2;
   padding: 12px;
@@ -123,7 +153,6 @@ hr {
   color: white;
   font-size: 12px;
   font-weight: bold;
-  font-family: "Helvetica Neue";
 }
 
 
@@ -150,18 +179,12 @@ hr {
   display: none;
 }
 
-.axisHidden line {
-  stroke: white;
+.barYAxis line {
+  stroke: #DDDDDD;
 }
 
-.axisHidden path {
-  stroke: white;
+.barYAxis path {
+  stroke: #DDDDDD;
 }
 
-#footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-}
+

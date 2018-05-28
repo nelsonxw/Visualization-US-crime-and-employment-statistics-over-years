@@ -1,13 +1,13 @@
 /*define svg container dimensions for bubble chart*/
 var svgWidth_b = 900;
-var svgHeight_b = 560;
+var svgHeight_b = 500;
 
 /*define margins around bubble chart area*/
 var margin_b = {
-  top: 80,
+  top: 50,
   right: 20,
   bottom: 20,
-  left: 80
+  left: 40
 };
 
 /*calculate bubble chart area dimensions*/
@@ -66,7 +66,7 @@ bubbleChartGroup.append("text")
 var label_b = bubbleChartGroup.append("text")
   .attr("class", "year label")
   .attr("text-anchor", "end")
-  .attr("x", parseInt(`${margin_b.left}`)+width_b/2.5)
+  .attr("x", parseInt(`${margin_b.left}`)+width_b/2)
   .attr("y", parseInt(`${margin_b.top}`)+height_b/8)
   .text(1976);
 
@@ -170,8 +170,6 @@ d3.json(routeURL, function(data) {
 		var sortedBreakdown = crimeBreakdown.sort(function(a,b){
 			return b.value - a.value;
 		});
-		console.log("captured: ",d);
-		/*console.log("captured: ",d.murderRate);*/
 		
 		extraChart(selectedYear,selectedState,sortedBreakdown);
 	});
@@ -286,14 +284,7 @@ d3.json(routeURL, function(data) {
   }	
 
   /*create a play button to start animation for demo*/
-  var playButton = d3.select("#playButton");
-  playButton
-    .text("Play")
-    .style("color", "#4682B4")
-    .style("font-weight", "bold")
-    .style("font-family", "Helvetica Neue");
-
-  playButton.on("click",animate);
+	d3.select("#title").on("click",animate);
 
 
 
@@ -312,7 +303,7 @@ d3.json(routeURL, function(data) {
 });*/
 	function extraChart(clickedYear, clickedState, clickedData) {
 		/*define svg container dimensions for extra bar chart and pie chart*/
-		console.log("display: ",clickedData)
+		
 		if (document.querySelector("#barChart")) { 
 			d3.select("#barChart").remove()
 			createBar();
@@ -326,15 +317,15 @@ d3.json(routeURL, function(data) {
 		function createBar(){
 			valueCount = clickedData.map(d=>d.value).length;
 
-			var svgWidth_e = 400;
-			var svgHeight_e = 400;
+			var svgWidth_e = 500;
+			var svgHeight_e = 300;
 
 			/*define margins around extra chart area*/
 			var margin_e = {
 			  top: 60,
 			  right: 50,
-			  bottom: 240,
-			  left: 70
+			  bottom: 150,
+			  left: 100
 			};
 
 			/*calculate extra chart area dimensions*/
@@ -345,26 +336,26 @@ d3.json(routeURL, function(data) {
 			var svg_e = d3.select("#extra_Chart").append("svg")
 			  .attr("id","barChart")
 			  .attr("width", svgWidth_e)
-			  .attr("height", svgHeight_e)
+			  .attr("height", svgHeight_e);
 
 
 			var extraTitle = svg_e.append("g").append("text")
 			  .attr("class", "extra title")
 			  .attr("text-anchor", "middle")
-			  .attr("x", width_e *2 / 3)
+			  .attr("x", (width_e + margin_e.left) / 2 + 50)
 			  .attr("y", 20)
 			  .style("font-weight", "bold")
-			  .style("font-size", "15px")
-			  .text("Breakdown of Violent Crimes")
+			  .style("font-size", "20px")
+			  .text("Breakdown of Violent Crimes");
 
 			var extraTitle = svg_e.append("g").append("text")
 			  .attr("class", "extra title")
 			  .attr("text-anchor", "middle")
-			  .attr("x", width_e *2 / 3)
+			  .attr("x", (width_e + margin_e.left) / 2 + 50)
 			  .attr("y", 40)
 			  .style("font-weight", "bold")
-			  .style("font-size", "13px")
-			  .text(`${clickedState}, Year ${clickedYear}`)
+			  .style("font-size", "16px")
+			  .text(`${clickedState}, Year ${clickedYear}`);
 			  
 			
 
@@ -372,191 +363,199 @@ d3.json(routeURL, function(data) {
 
 			var extraChartGroup = svg_e.append("g")
 			  .attr("transform", `translate(${margin_e.left}, ${margin_e.top})`)
-			  .attr("class","extra chart")
+			  .attr("class","extra chart");
 
 
 			/*configure a band scale for the y axis with a padding of 0.1 (10%)*/
 			var yBandScale_e = d3.scaleBand()
 				.domain(clickedData.map(d => d.type))
 				.range([height_e,0])
-				.paddingInner(0.05)
+				.paddingInner(0.01);
 
 
 			/*create a linear scale for the x axis*/
 			var xLinearScale_e = d3.scaleLinear()
 				.domain([0, d3.max(clickedData.map(d => d.value))])
-				.range([0,width_e])
+				.range([0,width_e]);
 
 			var leftAxis_e = d3.axisLeft(yBandScale_e);
 
-			extraChartGroup.selectAll("rect")
-			  .data(clickedData)
+			var pie = d3.pie()
+		        .value(d => d.value)
+
+
+		    var arc = d3.arc()
+		    	.cornerRadius(3)
+                /*.padAngle(.01);*/
+
+			var color = d3.scaleOrdinal()
+    			.range(["#98abc5", "#7b6888", "#a05d56", "#ff8c00"]);
+
+			var bGroup = extraChartGroup.selectAll(".bar")
+			  .data(function() {
+		            return pie(clickedData);
+		        })
 			  .enter()
-			  .append("rect")
-			  .attr("width", d => xLinearScale_e(d.value))
+			  .append("g")
+			  .attr("class", "bar");
+
+			bGroup.append("rect")
+			  .attr("width", d => xLinearScale_e(d.data.value))
 			  .attr("height", yBandScale_e.bandwidth())
 			  .attr("x", 0)
 			  .attr("y", function(data,index) {
 			    return index * (yBandScale_e.bandwidth() + 1);
 			  })
-			  .attr("class", "bar")
-			  .attr("fill","#4682B4");
-
-			
-			extraChartGroup.append("g")
-			  .attr("class", "axisHidden")
-			  .style("font-size", "10px")
-			  .style("font-weight", "bold")
-			  .call(leftAxis_e);
-
-			extraChartGroup.append("g").selectAll("text")
-			  .data(clickedData)
-			  .enter()
-			  .append("text")
-			  .attr("class","values")
-			  .attr("x",d => xLinearScale_e(d.value) + 5)
-			  .attr("y",function(data,index) {
-			    return index * height_e / valueCount + 5 + yBandScale_e.bandwidth() / 2;
-			  })
-			  .text(d=>d.value)
-			  .style("font-size", "10px");
-
-
-		}
-
-		function createPie(){
-
-			var svgWidth_e = 400;
-			var svgHeight_e = 400;
-
-			/*define margins around extra chart area*/
-			var margin_e = {
-			  top: 30,
-			  right: 50,
-			  bottom: 40,
-			  left: 70
-			};
-
-			/*calculate extra chart area dimensions*/
-			var width_e = svgWidth_e - margin_e.left - margin_e.right;
-			var height_e = svgHeight_e - margin_e.top - margin_e.bottom;
-
-			radius = Math.min(width_e, height_e) / 2;
-
-			var color = d3.scaleOrdinal()
-    			.range(["#98abc5", "#7b6888", "#a05d56", "#ff8c00"]);
-
-			var arc = d3.arc()
-				.outerRadius(radius - 40)
-				.innerRadius(radius - 100)
-				.cornerRadius(3)
-                .padAngle(.01);
-
-            var labelArc = d3.arc()
-                .outerRadius(radius * 0.9)
-                .innerRadius(radius * 0.9);
-
-			var pie = d3.pie()
-			    .value(function(d) { return d.value; });
-
-			/*create the SVG container and set the origin point of extra chart*/
-			var svg_e = d3.select("#extra_Chart").append("svg")
-			  .attr("id","pieChart")
-			  .attr("width", svgWidth_e)
-			  .attr("height", svgHeight_e)
-
-
-			var extraTitle = svg_e.append("g").append("text")
-			  .attr("class", "extra title")
-			  .attr("text-anchor", "middle")
-			  .attr("x", width_e *2 / 3)
-			  .attr("y", 20)
-			  .style("font-weight", "bold")
-			  .style("font-size", "15px")
-			  .text("Breakdown of Violent Crimes")
-
-			var extraTitle = svg_e.append("g").append("text")
-			  .attr("class", "extra title")
-			  .attr("text-anchor", "middle")
-			  .attr("x", width_e *2 / 3)
-			  .attr("y", 40)
-			  .style("font-weight", "bold")
-			  .style("font-size", "13px")
-			  .text(`${clickedState}, Year ${clickedYear}`)
+			  .attr("rx",5)
+			  .attr("yx",5)
+			  /*.style("fill","#4682B4");*/
+			  .style("fill",function(d) {
+			            return color(d.data.type);
+			        })
 			  
+
+
+			extraChartGroup.selectAll(".bar")
+				.append("path")
+		        .style("fill",function(d) {
+			            return color(d.data.type);
+			        });
+
+			addBarAxis();
+
+			function addBarAxis () {
+				extraChartGroup.append("g")
+				  .attr("class", "barYAxis")
+				  .style("font-size", "10px")
+				  .style("font-weight", "bold")
+				  .call(leftAxis_e);
+			}
+			
+			addBarValues();
+
+			function addBarValues () {
+				extraChartGroup.append("g").selectAll("text")
+				  .data(clickedData)
+				  .enter()
+				  .append("text")
+				  .attr("class","barValues")
+				  .attr("x",d => xLinearScale_e(d.value) + 5)
+				  .attr("y",function(data,index) {
+				    return index * height_e / valueCount + 5 + yBandScale_e.bandwidth() / 2;
+				  })
+				  .text(d=>d.value)
+				  .style("font-size", "10px")
+				  .style("font-weight","bold");
+			}
 			
 
+			function toPie() {
+				
+
+				if (document.querySelector("#barChart")) {
+					d3.selectAll("rect").remove();
+					d3.selectAll(".barYAxis").remove();
+					d3.selectAll(".barValues").remove();
+					extraChartGroup.selectAll("path")
+				        .transition()
+				        .duration(500)
+				        .tween("arc", arcTween);
+
+				    function arcTween(d) {
+				      
+				        var path = d3.select(this);
+				        var y0 = d.index * yBandScale_e.bandwidth();
+				        /*console.log(y0);*/
+				        return function(t) {
+				            var a = Math.cos(t * Math.PI / 2);
+				            var r = (1 + a) * height_e / Math.min(1, t + .005);
+				            var yy = r + a * y0;
+				            var xx = ((1 - a) * width_e / 2);
+				            var f = {
+				                    innerRadius: (1-a) * r * .5 + a * (r - yBandScale_e.bandwidth()),
+				                    outerRadius: r,
+				                    startAngle: (1 - a) * d.startAngle,
+				                    endAngle: a * (Math.PI / 2) + (1 - a) * d.endAngle
+				                };
 
 
-			var extraChartGroup = svg_e.append("g")
-			  .attr("transform", `translate(${width_e / 2 + 50}, ${height_e / 2 + 20})`)
-			  .attr("class","extra chart")
+				            path.attr("transform", `translate(${xx},${yy})`);
+				            path.attr("d", arc(f));
+				        };
+				    }
+
+				}
+				d3.select("#extra_Chart").select("svg")
+					.attr("id","pieChart");
+			}
 
 
-			extraChartGroup.selectAll(".arc")
-			  .data(pie(clickedData))
-			  .enter()
-			  .append("g")
-			  .attr("class", "arc")
-			  .append("path")
-			      .attr("d", arc)
-			      .style("fill", function(d) { return color(d.data.type); });
+			function toBar() {
+				
+
+				if (document.querySelector("#pieChart")) {
+
+					extraChartGroup.selectAll("path")
+				        .transition()
+				        .duration(500)
+				        .tween("arc", arcTween);
+
+				    function arcTween(d) {
+				  
+				        var path = d3.select(this);
+				        var y0 = d.index * yBandScale_e.bandwidth();
+				        var x0 = xLinearScale_e(d.data.value);
+				        
+				        return function(t) {
+				           
+				            t = 1 - t;
+				            var a = Math.cos(t * Math.PI / 2);
+				            var r = (1 + a) * height_e / Math.min(1, t + .005);
+				            var yy = r + a * y0;
+				            var xx = (1 - a) * width_e / 2;
+				            var f = {
+				                    innerRadius: r - yBandScale_e.bandwidth() + 1,
+				                    outerRadius: r,
+				                    startAngle: (1 - a) * d.startAngle,
+				                    endAngle: a * (x0 / r) + (1 - a) * d.endAngle
+				                };
 
 
-			extraChartGroup.append("g").selectAll("text")
-			  .data(pie(clickedData))
-			  .enter()
-			  .append("text")
-			  .attr("class","values")
-			  .attr('dy', '.8em')
-			  .attr('transform', function(d) {
+				            path.attr("transform", `translate(${xx},${yy})`);
+				            path.attr("d", arc(f));
+				        };
+				        
+				    }
 
-                    // effectively computes the centre of the slice.
-                    // see https://github.com/d3/d3-shape/blob/master/README.md#arc_centroid
-                    var labelPosition = labelArc.centroid(d);
+				    setTimeout(addBarAxis, 600);
+				    setTimeout(addBarValues, 600);
+				    d3.select("#extra_Chart").select("svg")
+					.attr("id","barChart");
 
-                    // changes the point to be on left or right depending on where label is.
-                    /*labelPosition[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);*/
-                    return `translate(${labelPosition})`;
-                })
-			  .text(d=>d.data.type)
-			  .style('text-anchor', function(d) {
-                    // if slice centre is on the left, anchor text to start, otherwise anchor to end
-                    return (midAngle(d)) < Math.PI ? 'start' : 'end';
-                });
+				}
+			}
+			d3.select("#barButton").on("click",toBar);
+			d3.select("#pieButton").on("click",toPie);
 
-			  // calculates the angle for the middle of a slice
-            function midAngle(d) { return d.startAngle + (d.endAngle - d.startAngle) / 2; }
+
+
+
+
 
 		}
+
+
 
 	var selectedChart = d3.select("#extra_Chart");
 	selectedChart
 		.on("mouseover", showButton)
 		.on("mouseout", hideButton);
 	
-	d3.select("#barButton").on("click",changeBarChart);
-	d3.select("#pieButton").on("click",changePieChart);
 
+	
+}
 
-	function changeBarChart() {
-		if (document.querySelector("#pieChart")) {
-			d3.select("#pieChart").remove()
-			createBar();
-		}
-	};
-
-	function changePieChart() {
-		if (document.querySelector("#barChart")) {
-			d3.select("#barChart").remove()
-			createPie();
-		}
-	};
-
-
-	}
-
-	function showButton() {
+function showButton() {
 	d3.select("#barButton")
 		.classed("inactive",false)
 		.classed("active", true);
