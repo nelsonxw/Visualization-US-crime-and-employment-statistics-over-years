@@ -18,11 +18,11 @@ html body div {
 
 }
 
-#observation {
+#observationSection {
   color: #DDDDDD;
 }
 
-#teamMembers {
+#teamSection {
   vertical-align: middle;
   margin: 0;
   padding: 0;
@@ -30,9 +30,12 @@ html body div {
   font-weight: bold;
 }
 
+.barValues {
+  font-size: 11px;
+  font-weight: bold;
+}
 
-
-#extra_Chart {
+#extraChartSection {
     
     margin-top: 50px;
 }
@@ -45,12 +48,12 @@ html body div {
     shape-rendering: crispEdges;
 }
 
-.year.label {
+.yearLabel {
     font-size: 160px;
     fill: gray;
 }
 
-.overlay_b {
+.overlayBox {
     fill: none;
     pointer-events: all;
     cursor: ew-resize;
@@ -62,7 +65,7 @@ html body div {
 
 }
 
-  .d3-tip {
+.d3-tip {
   
   font-size: 14px;
   line-height: 1.2;
@@ -172,7 +175,6 @@ hr {
   color: white;
   font-size: 12px;
   font-weight: bold;
-  font-family: "Helvetica Neue";
 }
 
 .inactive {
@@ -187,4 +189,22 @@ hr {
   stroke: #DDDDDD;
 }
 
+.barYAxis {
+  font-family: "Helvetica Neue";
+  font-size: 13px;
+  font-weight: bold;
+}
 
+#extra_Chart {
+  height: 300px;
+}
+
+.crimeType{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.crimePercent{
+  font-weight: bold;
+  font-size: 14px;
+}
