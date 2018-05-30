@@ -202,9 +202,11 @@ hr {
 .crimeType{
   font-weight: bold;
   font-size: 18px;
+  fill: red;
 }
 
 .crimePercent{
   font-weight: bold;
   font-size: 14px;
+  fill: red;
 }

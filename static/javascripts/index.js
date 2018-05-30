@@ -304,6 +304,7 @@ d3.json(routeURL, function(data) {
 			createBar();
 		};	
 
+
 		function createBar(){
 		
 			valueCount = clickedData.map(d=>d.value).length;
@@ -391,7 +392,7 @@ d3.json(routeURL, function(data) {
 			  .attr("class", "barGroup");
 
 			bGroup.append("rect")
-			  .attr("width", d => xLinearScale_e(d.data.value))
+			  .attr("width", 0)
 			  .attr("height", yBandScale_e.bandwidth())
 			  .attr("x", 0)
 			  .attr("y", function(data,index) {
@@ -400,11 +401,15 @@ d3.json(routeURL, function(data) {
 			  })
 			  .attr("rx",5)
 			  .attr("yx",5)
-			  /*.style("fill","#4682B4");*/
 			  .style("fill",function(d) {
 			            return color(d.data.type);
 			        })
 			  .attr("class","bar")
+			  .on("mouseover",highlight)
+			  .on("mouseout",unhighlight)
+			  .transition()
+			  	.duration(500)
+			  	.attr("width", d => xLinearScale_e(d.data.value))
 			  
 
 
@@ -412,7 +417,12 @@ d3.json(routeURL, function(data) {
 				.append("path")
 		        .style("fill",function(d) {
 			            return color(d.data.type);
-			        });
+			        })
+		        
+
+			
+
+
 
 			addBarAxis();
 
@@ -422,7 +432,7 @@ d3.json(routeURL, function(data) {
 				  .call(leftAxis_e);
 			}
 			
-			addBarValues();
+			setTimeout(addBarValues, 500);
 
 			function addBarValues () {
 				extraChartGroup.append("g").selectAll("text")
@@ -499,16 +509,23 @@ d3.json(routeURL, function(data) {
 									  	return d3.format(".1%")(`${slicePercent}`);
 									  });
 
+								} else {
+									var selection = d3.select(this);
+									highlight(selection);
 								}
 							}
 
 							function hideSliceInfo() {
 								if(document.querySelector("#pieChart")) {
-									d3.select(this)
+									var slice = d3.select(this)
 										.attr("stroke","none");
+
 			              			d3.select(".crimeType").remove();	
 			              			d3.select(".crimePercent").remove();	
 									
+								} else {
+									var selection = d3.select(this);
+									unhighlight(selection);
 								}
 							}
 				        };
@@ -605,3 +622,47 @@ function showButton() {
 		.classed("inactive", true);
 	} 
 
+function highlight(selection) {
+
+	if (!selection._groups) {
+			var selection = d3.select(this);
+		};
+
+	selection
+		.attr("stroke","#fff")
+		.attr("stroke-width","2px");
+	var selectionIndex = (selection._groups[0][0].__data__.index);
+	d3.selectAll(".barYAxis>.tick>text").each(function(d, i){
+    if (3 - i == selectionIndex) {
+    	d3.select(this).style("font-size","15px");
+    	d3.select(this).style("fill","red");
+    }
+  });
+	d3.selectAll(".barValues").each(function(d, i){
+    if (i == selectionIndex) {
+    	d3.select(this).style("font-size","13px");
+    	d3.select(this).style("fill","red");
+    }
+  });
+	
+}
+
+function unhighlight(selection) {	
+	if (!selection._groups) {
+			var selection = d3.select(this);
+		};				
+	selection.attr("stroke","none");
+	var selectionIndex = (selection._groups[0][0].__data__.index);
+		d3.selectAll(".barYAxis>.tick>text").each(function(d, i){
+	    if (3 - i == selectionIndex) {
+	    	d3.select(this).style("font-size","13px");
+	    	d3.select(this).style("fill","black");
+	    }
+	  });
+		d3.selectAll(".barValues").each(function(d, i){
+	    if (i == selectionIndex) {
+	    	d3.select(this).style("font-size","11px");
+	    	d3.select(this).style("fill","black");
+	    }
+	  });
+}
