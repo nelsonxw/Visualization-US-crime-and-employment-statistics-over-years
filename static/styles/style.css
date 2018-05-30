@@ -5,6 +5,19 @@ html body div {
   background-color: #DDDDDD;
 }
 
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  flex: 1 0 auto;
+}
+
 #title {
   cursor: pointer;
 }
@@ -15,7 +28,7 @@ html body div {
   bottom: 0;
   left: 0;
   background-color: #DDDDDD;
-
+  flex-shrink: 0;
 }
 
 #observationSection {
@@ -195,9 +208,9 @@ hr {
   font-weight: bold;
 }
 
-#extra_Chart {
+/*#extra_Chart {
   height: 300px;
-}
+}*/
 
 .crimeType{
   font-weight: bold;
@@ -210,3 +223,33 @@ hr {
   font-size: 14px;
   fill: red;
 }
+
+#mapSection {
+  height: 300px;
+  width: 500px;
+  margin-left: 50px;
+  /*height: 100%;*/
+}
+
+/*.custom-popup */.leaflet-popup-content-wrapper {
+  background:"white";
+  color:"black";
+  font-size:1px;
+  line-height:24px;
+  border-radius: 6px;
+  text-align: center;
+  padding: 1px;
+  }
+
+/*.custom-popup */.leaflet-popup-tip-container {
+  width:10px;
+  height:5px;
+  }
+/*.custom-popup */.leaflet-popup-tip {
+    background: "red";
+    border: none;
+    box-shadow: none;
+  }
+
+
+
