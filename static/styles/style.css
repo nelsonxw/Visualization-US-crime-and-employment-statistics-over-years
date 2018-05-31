@@ -14,9 +14,10 @@ body {
   flex-direction: column;
 }
 
-p {
+p,h6 {
   margin-left: 50px;
   margin-bottom: 0;
+  text-decoration: underline;
 }
 
 ul {
@@ -40,8 +41,13 @@ ul {
   flex-shrink: 0;
 }
 
-#observationSection {
+#dataSource li {
+  font-size: 12px;
+}
+
+#observationSection, #observatiobns {
   color: #DDDDDD;
+  font-family: "Helvetica Neue";
 }
 
 #teamSection {
