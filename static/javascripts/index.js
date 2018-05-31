@@ -1,6 +1,6 @@
 /*define svg container dimensions for bubble chart*/
-var svgWidth_b = 900;
-var svgHeight_b = 500;
+var svgWidth_b = 800;
+var svgHeight_b = 450;
 
 /*define margins around bubble chart area*/
 var margin_b = {
@@ -164,6 +164,7 @@ d3.json(routeURL, function(data) {
 			return b.value - a.value;
 		});
 		extraChart(selectedYear,selectedState,sortedBreakdown);
+		showMap(selectedState);
 	});
 
   
@@ -185,15 +186,6 @@ d3.json(routeURL, function(data) {
 
   /*define a function to start transition of bubbles*/
   function animate() {
-	if (d3.select("#barChart")) {
-		d3.select("#barChart").remove();
-	}
-
-	if (d3.select("#pieChart")) {
-		d3.select("#pieChart").remove();
-	}
-
-	hideButton();
 
 	bubbleChartGroup.transition()
 		.duration(30000)
@@ -310,13 +302,13 @@ d3.json(routeURL, function(data) {
 			valueCount = clickedData.map(d=>d.value).length;
 
 			var svgWidth_e = 500;
-			var svgHeight_e = 300;
+			var svgHeight_e = 250;
 
 			/*define margins around extra chart area*/
 			var margin_e = {
 			  top: 60,
 			  right: 80,
-			  bottom: 150,
+			  bottom: 100,
 			  left: 100
 			};
 
@@ -665,4 +657,124 @@ function unhighlight(selection) {
 	    	d3.select(this).style("fill","black");
 	    }
 	  });
+}
+
+function showMap(selectedState) {
+  d3.select("#mapSection").remove();
+  var parent = document.querySelector(".col-sm-5");
+  var child = document.createElement("Div");
+  child.id = "mapSection";
+  /*child.className = "custom-popup";*/
+  parent.appendChild(child);
+  // Creating map object
+  if (selectedState == "Alaska") {
+    var lat = 51;
+    var log = -123;
+    var zoomLevel = 2;
+  } else if (selectedState == "Hawaii") {
+    var lat = 30;
+    var log = -142;
+    var zoomLevel = 3;
+  } else {
+    var lat = 38.3;
+    var log = -97;
+    var zoomLevel = 3;
+  }
+
+  var map = L.map("mapSection", {
+    center: [lat, log],
+    zoom: zoomLevel,
+    zoomControl: false
+  });
+
+  // Adding tile layer
+  L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?" +
+    "access_token=pk.eyJ1IjoibmVsc29ud2FuZyIsImEiOiJjamd6dmw4YnEwamMyMnFwNGp6ODZ1ZXpjIn0.9l00nhSK9-fdWTfQPkBpEQ").addTo(map);
+
+  var link = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json";
+
+  // Grabbing our GeoJSON data..
+  d3.json(link, function(data) {
+    // Creating a geoJSON layer with the retrieved data
+    L.geoJson(data, {
+      // Style each feature (in this case a neighborhood)
+      style: function(feature) {
+        if (feature.properties.name == selectedState) {
+          return {
+            color: "white",
+            // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
+            fillColor: "red",
+            fillOpacity: 0.7,
+            weight: 1.5
+          };
+        } else {
+          return {
+            color: "white",
+            // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
+            fillColor: "black",
+            fillOpacity: 0.1,
+            weight: 1.5
+          };
+        };
+      },
+      // Called on each feature
+      onEachFeature: function(feature, layer) {
+        // Set mouse events to change map styling
+        layer.on({
+          // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
+          mouseover: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 1
+              
+            });
+          },
+          // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
+          mouseout: function(event) {
+            layer = event.target;
+            if (feature.properties.name == selectedState) {
+	            layer.setStyle({
+	              fillOpacity: 0.7
+	              
+	            });
+	        } else {
+				layer.setStyle({
+	              fillOpacity: 0.1
+	              
+	            });
+	        };
+          },
+          // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
+          /*click: function(event) {
+            map.fitBounds(event.target.getBounds());
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.8,
+              fillColor: "red"
+              
+            });
+          }*/
+        });
+        // Giving each feature a pop-up with information pertinent to it
+        layer.bindPopup("<h1> Welcome to " + feature.properties.name);
+
+      }
+    }).addTo(map);
+
+    var selectedData = data.features.filter(d=> d.properties.name == selectedState);
+    var stateBounds = L.geoJson(selectedData).getBounds();
+    var zoom = map.getBoundsZoom(stateBounds);
+	var swPoint = map.project(stateBounds.getSouthWest(), zoom);
+	var nePoint = map.project(stateBounds.getNorthEast(), zoom);
+	var center = map.unproject(swPoint.add(nePoint).divideBy(2), zoom);
+
+    setTimeout(zoomin, 3000);
+    function zoomin(){
+        map.flyTo(center, zoom,{
+              animate: true,
+              duration: 2 // in seconds
+            });  
+    }
+
+  });
 }
