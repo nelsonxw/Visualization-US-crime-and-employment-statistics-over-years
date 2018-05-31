@@ -172,7 +172,39 @@ d3.json(routeURL, function(data) {
 	/*define function to sort the bubbles based on radius*/
   function radius(d) { return d.population; }
   function order(a, b) { return radius(b) - radius(a); } /*sort in descending order*/
-  	
+  
+ var legendX = width_b -100;
+ var legendY = height_b - 110;
+ var legendData = [
+ 	{radius:8,x:legendX,y:legendY,category:"population >10m"},
+ 	{radius:6,x:legendX,y:legendY + 25,category:"population 5-10m"},
+ 	{radius:4,x:legendX,y:legendY + 47,category:"population 1-5m"},
+ 	{radius:3,x:legendX,y:legendY + 65,category:"population <1m"}
+ ]
+	var legendColor = d3.scaleOrdinal()
+    			.range(["green", "red", "orange", "RoyalBlue"]);
+ var legendGroup = bubbleChartGroup.selectAll(".legend")
+		.data(legendData)
+		.enter()
+		.append("circle")
+		.attr("class", "legend")
+		.attr("r", data=>data.radius)
+		.attr("cx", data=>data.x)
+		.attr("cy", data=>data.y)
+		.attr("opacity",.8)
+		.style("fill", data=>legendColor(data.category))
+
+
+var legendLable = bubbleChartGroup.selectAll(".legendLable")
+		.data(legendData)
+		.enter()
+		.append("text")
+		.attr("class", "legendLable")
+		.attr("x", data=>data.x + 15)
+	    .attr("y", data=>data.y + 2)
+	    .text(data=>data.category)
+	    .style("font-size","12px")
+
 	/*add an overlay on top of year label*/
   var box_b = label_b.node().getBBox();
   var overlay_b = bubbleChartGroup.append("rect")
@@ -704,14 +736,14 @@ function showMap(selectedState) {
             color: "white",
             // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
             fillColor: "red",
-            fillOpacity: 0.7,
+            fillOpacity: 0.5,
             weight: 1.5
           };
         } else {
           return {
             color: "white",
             // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
-            fillColor: "black",
+            fillColor: "gray",
             fillOpacity: 0.1,
             weight: 1.5
           };
@@ -725,7 +757,7 @@ function showMap(selectedState) {
           mouseover: function(event) {
             layer = event.target;
             layer.setStyle({
-              fillOpacity: 1
+              fillOpacity: .8
               
             });
           },
@@ -734,7 +766,7 @@ function showMap(selectedState) {
             layer = event.target;
             if (feature.properties.name == selectedState) {
 	            layer.setStyle({
-	              fillOpacity: 0.7
+	              fillOpacity: 0.5
 	              
 	            });
 	        } else {
@@ -745,18 +777,20 @@ function showMap(selectedState) {
 	        };
           },
           // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-          /*click: function(event) {
-            map.fitBounds(event.target.getBounds());
-            layer = event.target;
-            layer.setStyle({
-              fillOpacity: 0.8,
-              fillColor: "red"
+          click: function(event) {
+            /*map.fitBounds(event.target.getBounds());
+            layer = event.target;*/
+            /*layer.setStyle({
+              fillOpacity: 0.1,
+              fillColor: "gray"
               
-            });
-          }*/
+            });*/
+
+
+          }
         });
         // Giving each feature a pop-up with information pertinent to it
-        layer.bindPopup("<h1> Welcome to " + feature.properties.name);
+        layer.bindPopup("<h3> Welcome to " + feature.properties.name + "</h3>");
 
       }
     }).addTo(map);
