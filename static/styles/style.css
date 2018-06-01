@@ -5,6 +5,11 @@ html body div {
   background-color: #DDDDDD;
 }
 
+.row, .col {
+  margin: 0;
+  padding: 0;
+}
+
 html, body {
   height: 100%;
 }
@@ -30,15 +35,17 @@ ul {
 
 #title {
   cursor: pointer;
+  font-weight: bold;
 }
 
 #footer {
-  position: absolute;
+/*  position: absolute;
   right: 0;
   bottom: 0;
-  left: 0;
+  left: 0;*/
   background-color: #DDDDDD;
   flex-shrink: 0;
+  padding-top: 30px;
 }
 
 #dataSource li {
@@ -59,7 +66,7 @@ ul {
 }
 
 .barValues {
-  font-size: 11px;
+  /*font-size: 11px;*/
   font-weight: bold;
 }
 
@@ -77,7 +84,7 @@ ul {
 }
 
 .yearLabel {
-    font-size: 160px;
+/*    font-size: 160px;*/
     fill: gray;
 }
 
@@ -219,7 +226,7 @@ hr {
 
 .barYAxis {
   font-family: "Helvetica Neue";
-  font-size: 13px;
+ /* font-size: 13px;*/
   font-weight: bold;
 }
 
@@ -240,28 +247,31 @@ hr {
 }
 
 #mapSection {
-  height: 300px;
-  width: 500px;
+/*  height: 300px;
+  width: 500px;*/
   margin-left: 50px;
+  margin-right: 0;
   /*height: 100%;*/
 }
 
-/*.custom-popup */.leaflet-popup-content-wrapper {
-  background:"white";
+.leaflet-popup-content-wrapper {
   color:"black";
   font-size:1px;
   line-height:24px;
   border-radius: 6px;
   text-align: center;
-  padding: 1px;
   }
 
-/*.custom-popup */.leaflet-popup-tip-container {
-  width:10px;
-  height:5px;
+.leaflet-popup-tip-container {
+  width:0px;
+  height:0px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid white;
+  background-color: transparent;
   }
-/*.custom-popup */.leaflet-popup-tip {
-    background: "red";
+.leaflet-popup-tip {
+    /*background: "red";*/
     border: none;
     box-shadow: none;
   }

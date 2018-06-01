@@ -1,3 +1,9 @@
+var windowWidth = window.innerWidth;
+var windowHeight = window.innerHeight;
+
+document.querySelector("#title").style.fontSize = 32 * windowWidth / (windowWidth > 992? 1536 : 992) + "px";
+document.querySelector("#teamSection").style.fontSize = 20 * windowWidth / (windowWidth > 992? 1536 : 992) + "px";
+
 createBubbleChart(1976,"all_states");
 
 function createBubbleChart(year,scope) {	
@@ -5,8 +11,19 @@ function createBubbleChart(year,scope) {
 		d3.select("#bubbleChart").remove();
 	};
 	/*define svg container dimensions for bubble chart*/
-	var svgWidth_b = 800;
-	var svgHeight_b = 450;
+
+
+	console.log(windowWidth,windowHeight);
+	console.log("input",scope);
+
+
+	if (windowWidth > 992) {
+		var svgWidth_b = windowWidth / 12 * 6;
+	} else {
+		var svgWidth_b = windowWidth;
+	};
+	
+	var svgHeight_b = svgWidth_b /16 * 9;
 
 	/*define margins around bubble chart area*/
 	var margin_b = {
@@ -31,12 +48,15 @@ function createBubbleChart(year,scope) {
 
 
 	/*define various scales used for x axis, y axis, radius of bubbles and color of bubbles*/
-	var xScale_b = d3.scaleLog().domain([40, 3000]).range([0, width_b]); /*use log scale so bubbles will not be displayed too closely*/
+	var xScale_b = d3.scaleLog().domain([40, 3000]).range([0, width_b - (windowWidth > 992? 0 : 40)]); /*use log scale so bubbles will not be displayed too closely*/
 	var yScale_b = d3.scaleLinear().domain([0, 18]).range([height_b, 0]);
-	var radiusScale_b = d3.scaleSqrt().domain([0, 4e7]).range([0, 40]); /*use square root scale to scale on large population numbers */
+	var radiusScale_b = d3.scaleSqrt().domain([0, 4e7]).range([0, 40 * windowWidth / (windowWidth > 992? 1536 : 992)]); /*use square root scale to scale on large population numbers */
 	
 	if(scope == "all_states") {
 		var colorScale_b = d3.scaleOrdinal(d3.schemeCategory10); /*use d3 ordinal color scale for different category of states*/
+	} else if (scope == "Alaska") {
+		var colorScale_b = d3.scaleOrdinal()
+							.range(["red","transparent"]);
 	} else {
 		var colorScale_b = d3.scaleOrdinal()
 							.range(["transparent","red"]);
@@ -63,13 +83,15 @@ function createBubbleChart(year,scope) {
 	bubbleChartGroup.append("text")
 	  .attr("class", "x label")
 	  .attr("text-anchor", "end")
-	  .attr("x", width_b)
+	  .style("font-size", 16 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
+	  .attr("x", width_b - (windowWidth > 992? 0 : 40))
 	  .attr("y", height_b - 6)
 	  .text("Violent crime rate per 100,000 population");
 
 	bubbleChartGroup.append("text")
 	  .attr("class", "y label")
 	  .attr("text-anchor", "end")
+	  .style("font-size", 16 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 	  .attr("y", 6)
 	  .attr("dy", ".75em")
 	  .attr("transform", "rotate(-90)")
@@ -79,6 +101,7 @@ function createBubbleChart(year,scope) {
 	var label_b = bubbleChartGroup.append("text")
 	  .attr("class", "yearLabel")
 	  .attr("text-anchor", "end")
+	  .style("font-size", 160 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 	  .attr("x", parseInt(`${margin_b.left}`)+width_b/2)
 	  .attr("y", parseInt(`${margin_b.top}`)+height_b/8)
 	  .text(year);
@@ -136,6 +159,7 @@ function createBubbleChart(year,scope) {
 	  	return d.assaultRate = d.assaultRate.map(d=>parseInt(d))
 	  })
 
+	  console.log("data before",data);
 	  if(scope != "all_states") {
 	  	data.map(function (d) {
 	  		if (d.stateName == scope) {
@@ -152,7 +176,7 @@ function createBubbleChart(year,scope) {
 	  	})
 		};
 
-	  console.log("test1",data);
+	  console.log("data after",data);
 	  var yearList = data[0].year;  
 
 	  /*create the inital bubble chart*/
@@ -208,7 +232,7 @@ function createBubbleChart(year,scope) {
 	  function radius(d) { return d.population; }
 	  function order(a, b) { return radius(b) - radius(a); } /*sort in descending order*/
 	  
-	 var legendX = width_b -100;
+	 var legendX = width_b - (windowWidth > 992? 80 : 120);
 	 var legendY = height_b - 110;
 	 var legendData = [
 	 	{radius:8,x:legendX,y:legendY,category:"population >10m"},
@@ -241,7 +265,7 @@ function createBubbleChart(year,scope) {
 				.attr("x", data=>data.x + 15)
 			    .attr("y", data=>data.y + 2)
 			    .text(data=>data.category)
-			    .style("font-size","12px")
+			    .style("font-size", 12 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 	}
 
 		/*add an overlay on top of year label*/
@@ -295,7 +319,7 @@ function createBubbleChart(year,scope) {
 	  		.style("fill", data=>colorScale_b(data.category))
 	  		.sort(order)
 	  }
-	  console.log("test2",interpolateData(year));
+
 	  /*define a function to interpolate the dataset for the given (fractional) year*/
 	  function interpolateData(year) {
 	    return data.map(function(d) {
@@ -346,7 +370,6 @@ function createBubbleChart(year,scope) {
 	    overlay_b.on("mousemove", mousemove)
 	    
 	    function mousemove() {
-	    	console.log(yearScale.invert(d3.mouse(this)[0]));
 	    	updateChart(Math.round(yearScale.invert(d3.mouse(this)[0]))); }
 	  }	
 
@@ -377,15 +400,20 @@ function createBubbleChart(year,scope) {
 		
 			valueCount = clickedData.map(d=>d.value).length;
 
-			var svgWidth_e = 500;
-			var svgHeight_e = 250;
+			if (windowWidth > 992) {
+				var svgWidth_e = windowWidth / 12 * 4;
+			} else {
+				var svgWidth_e = windowWidth;
+			};
+
+			var svgHeight_e = svgWidth_e / 2
 
 			/*define margins around extra chart area*/
 			var margin_e = {
-			  top: 60,
-			  right: 80,
-			  bottom: 100,
-			  left: 100
+			  top: 60 * windowWidth / (windowWidth > 992? 1536 : 992),
+			  right: 80 * windowWidth / (windowWidth > 992? 1536 : 992),
+			  bottom: 100 * windowWidth / (windowWidth > 992? 1536 : 992),
+			  left: 100 * windowWidth / (windowWidth > 992? 1536 : 992)
 			};
 
 			/*calculate extra chart area dimensions*/
@@ -403,18 +431,18 @@ function createBubbleChart(year,scope) {
 			  .attr("class", "extra title")
 			  .attr("text-anchor", "middle")
 			  .attr("x", (width_e + margin_e.left) / 2 + 50)
-			  .attr("y", 20)
+			  .attr("y", 20 * windowWidth / (windowWidth > 992? 1536 : 992))
 			  .style("font-weight", "bold")
-			  .style("font-size", "20px")
+			  .style("font-size", 20 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 			  .text("Breakdown of Violent Crimes");
 
 			var extraTitle = svg_e.append("g").append("text")
 			  .attr("class", "extra title")
 			  .attr("text-anchor", "middle")
 			  .attr("x", (width_e + margin_e.left) / 2 + 50)
-			  .attr("y", 40)
+			  .attr("y", 40 * windowWidth / (windowWidth > 992? 1536 : 992))
 			  .style("font-weight", "bold")
-			  .style("font-size", "16px")
+			  .style("font-size", 16 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 			  .text(`${clickedState}, Year ${clickedYear}`);
 			  
 			
@@ -497,6 +525,7 @@ function createBubbleChart(year,scope) {
 			function addBarAxis () {
 				extraChartGroup.append("g")
 				  .attr("class", "barYAxis")
+				  .style("font-size", 13 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 				  .call(leftAxis_e);
 			}
 			
@@ -508,6 +537,7 @@ function createBubbleChart(year,scope) {
 				  .enter()
 				  .append("text")
 				  .attr("class","barValues")
+				  .style("font-size", 11 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
 				  .attr("x",d => xLinearScale_e(d.value) + 5)
 				  .attr("y",function(data,index) {
 				    return index * height_e / valueCount + 5 + yBandScale_e.bandwidth() / 2;
@@ -535,7 +565,7 @@ function createBubbleChart(year,scope) {
 				     
 				        return function(t) {
 				            var a = Math.cos(t * Math.PI / 2);
-				            var r = (1 + a) * height_e / Math.min(1, t + .005);
+				            var r = (1 + a) * height_e / (windowWidth > 992? 1 : 2) / Math.min(1, t + .005);
 				            var yy = r + a * y0;
 				            var xx = ((1 - a) * width_e / 2);
 				            var f = {
@@ -564,15 +594,17 @@ function createBubbleChart(year,scope) {
 									svg_e.append("g").append("text")
 									  .attr("class", "crimeType")
 									  .attr("text-anchor", "middle")
-									  .attr("x", 260)
-									  .attr("y", 145)
+									  .style("font-size", 18 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
+									  .attr("x", 265 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.9))
+									  .attr("y", 150 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.5))
 									  .text(`${sliceType}`);
 
 									svg_e.append("g").append("text")
 									  .attr("class", "crimePercent")
 									  .attr("text-anchor", "middle")
-									  .attr("x", 260)
-									  .attr("y", 165)
+									  .style("font-size", 14 * windowWidth / (windowWidth > 992? 1536 : 992) + "px")
+									  .attr("x", 265 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.9))
+									  .attr("y", 170 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.5))
 									  .text(function () {
 									  	return d3.format(".1%")(`${slicePercent}`);
 									  });
@@ -702,13 +734,13 @@ function highlight(selection) {
 	var selectionIndex = (selection._groups[0][0].__data__.index);
 	d3.selectAll(".barYAxis>.tick>text").each(function(d, i){
     if (3 - i == selectionIndex) {
-    	d3.select(this).style("font-size","15px");
+    	d3.select(this).style("font-size", 15 * windowWidth / (windowWidth > 992? 1536 : 992) + "px");
     	d3.select(this).style("fill","red");
     }
   });
 	d3.selectAll(".barValues").each(function(d, i){
     if (i == selectionIndex) {
-    	d3.select(this).style("font-size","13px");
+    	d3.select(this).style("font-size", 13 * windowWidth / (windowWidth > 992? 1536 : 992) + "px");
     	d3.select(this).style("fill","red");
     }
   });
@@ -723,13 +755,13 @@ function unhighlight(selection) {
 	var selectionIndex = (selection._groups[0][0].__data__.index);
 		d3.selectAll(".barYAxis>.tick>text").each(function(d, i){
 	    if (3 - i == selectionIndex) {
-	    	d3.select(this).style("font-size","13px");
+	    	d3.select(this).style("font-size",13 * windowWidth / (windowWidth > 992? 1536 : 992) + "px");
 	    	d3.select(this).style("fill","black");
 	    }
 	  });
 		d3.selectAll(".barValues").each(function(d, i){
 	    if (i == selectionIndex) {
-	    	d3.select(this).style("font-size","11px");
+	    	d3.select(this).style("font-size",11 * windowWidth / (windowWidth > 992? 1536 : 992) + "px");
 	    	d3.select(this).style("fill","black");
 	    }
 	  });
@@ -739,11 +771,20 @@ function unhighlight(selection) {
 ===================================================================*/
 function showMap(selectedYear,selectedState,clickedData) {
   d3.select("#mapSection").remove();
-  var parent = document.querySelector(".col-sm-5");
+  var parent = document.querySelector(".col-lg-5");
   var child = document.createElement("Div");
   child.id = "mapSection";
-  /*child.className = "custom-popup";*/
   parent.appendChild(child);
+  
+  if (windowWidth > 992) {
+		document.querySelector("#mapSection").style.width = windowWidth / 12 * 4 - 50 + "px";
+  		document.querySelector("#mapSection").style.height = (windowWidth / 12 * 4 - 50) / 5 * 3 + "px";
+	} else {
+		document.querySelector("#mapSection").style.width = windowWidth - 100 + "px";
+  document.querySelector("#mapSection").style.height = (windowWidth - 100) / 5 * 3 + "px";
+	};
+
+	var clickedState = selectedState;
   // Creating map object
   if (selectedState == "Alaska") {
     var lat = 51;
@@ -830,19 +871,34 @@ function showMap(selectedYear,selectedState,clickedData) {
 	              
 	            });
 	           
-	           createBubbleChart(selectedYear,feature.properties.name);
-	           
-		       setTimeout(function(){
-					extraChart(selectedYear,feature.properties.name,clickedData);
-				},1000)
-
+	           if (feature.properties.name != clickedState) {
+		           createBubbleChart(selectedYear,feature.properties.name);
+			       setTimeout(function(){
+						extraChart(selectedYear,feature.properties.name,clickedData);
+					},1000)
+			       clickedState = feature.properties.name;
+			   }
+			   
 	          }
 	        });
 	        // Giving each feature a pop-up with information pertinent to it
-	        layer.bindPopup("<h3> You have visited " + feature.properties.name + ".  Hurrah!</h3>");
+	        var image_h = 176 * windowWidth / (windowWidth > 992? 1536 : 992);
+	        var image_w = 248 * windowWidth / (windowWidth > 992? 1536 : 992);
+	        var popupText = 20 * windowWidth / (windowWidth > 992? 1536 : 992);
+
+
+	        if (feature.properties.name == "Texas") {
+	        	layer.bindPopup(`<h5 style='font-size: ${popupText}px'> EVERYTHING IS BIGGER IN  ` + feature.properties.name.toUpperCase() + "...  CHEERS!!!</h5>"
+	        		+ `<img src='/images' height='${image_h}px' width='${image_w}px'/>`);
+	        } else {
+	        	layer.bindPopup("<h5> You have checked out " + feature.properties.name + ".  Is it the right place for you?</h5>");
+	        };
+	        
 
 	      }
 	    }).addTo(map);
+
+	    
 /*	}*/
 
     var selectedData = data.features.filter(d=> d.properties.name == selectedState);

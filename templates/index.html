@@ -22,13 +22,13 @@
 
 </head>
 <body>
-	<div id="title" class="text-center">
-		<h2>Think Before You Move - US Crime and Employment Statistics Over Years (1976 - 2014)</h2>
+	<div class="text-center">
+		<h2 id="title" >Think Before You Move - US Crime and Employment Statistics Over Years (1976 - 2014)</h2>
 		<hr>
 	</div>
 
 	<div class="row">
-		<div class="col-sm-7">
+		<div class="col-lg-7 col-sm-12">
 			<div id="bubbleChartSection"></div>
 			<div id="dataSource">
 				<p>Data Source:</p>
@@ -43,24 +43,23 @@
 				<ul id="observations">
 					<li>If possible, stay away from DC!</li>
 					<li>Smaller States are not necessarily safer or have more job opportunities.</li>
-					<li>US populations are growing and safety improving over the yeasrs.</li>
+					<li>US populations are growing and safety improving over the years.</li>
 
 				</ul>
 			</div>
 		</div>
-		<div class="col-sm-5">
+		<div class="col-lg-5 col-sm-12">
 			<div id="extraChartSection">
 				<div id="barButton" class="inactive">Bar</div>
 				<div id="pieButton" class="inactive">Pie</div>	
 			</div>
-			<div class="custom-popup" id="mapSection"></div>
+			<div id="mapSection"></div>
 		</div>
 	</div>
 		
-	<script type="text/javascript" src="{{url_for('static',filename = 'javascripts/index.js')}}"></script>
-
 	<div id="footer" class="text-center">
 		  <h5 id="teamSection">Project Team Members: Aditi Sharma, Bill Wilson, Gayatri Pingale, Nelson Wang</h5>
 	</div>
+	<script type="text/javascript" src="{{url_for('static',filename = 'javascripts/index.js')}}"></script>
 </body>
 </html>

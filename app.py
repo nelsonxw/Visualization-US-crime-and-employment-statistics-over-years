@@ -8,7 +8,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, send_file
 app = Flask(__name__)
 
 
@@ -37,6 +37,9 @@ def index():
     """Return the homepage."""
     return render_template('index.html')
 
+@app.route('/images')
+def image():
+	return send_file('images/cheers.jpg')
 
 @app.route('/chartdata')
 def chart_data():
