@@ -1,5 +1,4 @@
 var windowWidth = window.innerWidth;
-var windowHeight = window.innerHeight;
 
 document.querySelector("#title").style.fontSize = 32 * windowWidth / (windowWidth > 992? 1536 : 992) + "px";
 document.querySelector("#teamSection").style.fontSize = 20 * windowWidth / (windowWidth > 992? 1536 : 992) + "px";
@@ -8,13 +7,10 @@ createBubbleChart(1976,"all_states");
 
 function createBubbleChart(year,scope) {	
 	if (d3.select("#bubbleChart")) {
-		d3.select("#bubbleChart").remove();
+		$("#bubbleChart").remove();
+		/*d3.select("#bubbleChart").remove();*/
 	};
 	/*define svg container dimensions for bubble chart*/
-
-
-	console.log(windowWidth,windowHeight);
-	console.log("input",scope);
 
 
 	if (windowWidth > 992) {
@@ -878,7 +874,7 @@ function showMap(selectedYear,selectedState,clickedData) {
 					},1000)
 			       clickedState = feature.properties.name;
 			   }
-			   
+
 	          }
 	        });
 	        // Giving each feature a pop-up with information pertinent to it
