@@ -638,6 +638,7 @@ function extraChart(clickedYear, clickedState, clickedData) {
 
 			            /*shift the central locations of the arc and generate the arc*/
 			            path.attr("transform", `translate(${xx},${yy})`);
+			            console.log(xx,yy,r);
 			            path.attr("d", arc(arcArguments));
 			            
 			            /*create events on the path*/
@@ -647,6 +648,7 @@ function extraChart(clickedYear, clickedState, clickedData) {
 					    /*define a function to highlight and display info of each bar or slice of donut chart when moused over*/
 					    function showSliceInfo() {
 							/*for donut/pie chart, highlight the selection and show relevant info*/
+							console.log("check",xx,yy,r);
 							if(document.querySelector("#pieChart")) {
 								var slice = d3.select(this)
 									.attr("stroke","#fff")
@@ -661,16 +663,16 @@ function extraChart(clickedYear, clickedState, clickedData) {
 								  .attr("class", "crimeType")
 								  .attr("text-anchor", "middle")
 								  .style("font-size", 18 * screenRatio + "px")
-								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.87))
-								  .attr("y", 148 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.1))
+								  .attr("x",xx + margin_extraChart.left) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .attr("y",yy + margin_extraChart.top - 5 * screenRatio) /*from the arc center, add the same margin as bar chart and its path shifted*/
 								  .text(`${sliceType}`);
 
 								svg_extraChart.append("g").append("text")
 								  .attr("class", "crimePercent")
 								  .attr("text-anchor", "middle")
 								  .style("font-size", 14 * screenRatio + "px")
-								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.87))
-								  .attr("y", 168 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.1))
+								  .attr("x",xx + margin_extraChart.left) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .attr("y",yy + margin_extraChart.top + 20 * screenRatio) /*from the arc center, add the same margin as bar chart and its path shifted*/
 								  .text(function () {
 								  	return d3.format(".1%")(`${slicePercent}`);
 								  	});
