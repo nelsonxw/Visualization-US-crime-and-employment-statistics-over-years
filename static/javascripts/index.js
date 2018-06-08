@@ -663,7 +663,7 @@ function extraChart(clickedYear, clickedState, clickedData) {
 								  .attr("class", "crimeType")
 								  .attr("text-anchor", "middle")
 								  .style("font-size", 18 * screenRatio + "px")
-								  .attr("x",xx + margin_extraChart.left + 50) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .attr("x",xx + margin_extraChart.left) /*from the arc center, add the same margin as bar chart and its path shifted*/
 								  .attr("y",yy + margin_extraChart.top - 5 * screenRatio) /*from the arc center, add the same margin as bar chart and its path shifted*/
 								  .text(`${sliceType}`);
 
