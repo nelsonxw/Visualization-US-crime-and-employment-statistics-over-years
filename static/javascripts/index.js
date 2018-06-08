@@ -328,7 +328,10 @@ function createBubbleChart(year,scope) {
 			}
 	    }
 
-	    /*define a function to interpolate a year (or a fraction of year, t) from the list of years, and it is used to create transition frames*/
+	    /*
+	    define a function to interpolate a year (or a fraction of year, t) from the list of years, and it is used to create transition frames.
+	    credit to http://bl.ocks.org/jgujgu/d4821620fd3b313d83d758aee263afd0, codes have been modified.
+	    */
 	    function tweenYear() {
 		  	var year = d3.interpolateNumber(1976,2014);
 		    return function(t) { updateChart(year(t)); };
@@ -658,7 +661,7 @@ function extraChart(clickedYear, clickedState, clickedData) {
 								  .attr("class", "crimeType")
 								  .attr("text-anchor", "middle")
 								  .style("font-size", 18 * screenRatio + "px")
-								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.85))
+								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.87))
 								  .attr("y", 148 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.1))
 								  .text(`${sliceType}`);
 
@@ -666,7 +669,7 @@ function extraChart(clickedYear, clickedState, clickedData) {
 								  .attr("class", "crimePercent")
 								  .attr("text-anchor", "middle")
 								  .style("font-size", 14 * screenRatio + "px")
-								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.85))
+								  .attr("x", 256 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.87))
 								  .attr("y", 168 * windowWidth / (windowWidth > 992? 1536 : 992 / 1.1))
 								  .text(function () {
 								  	return d3.format(".1%")(`${slicePercent}`);
