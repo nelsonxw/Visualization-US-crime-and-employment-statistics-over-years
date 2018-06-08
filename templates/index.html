@@ -7,16 +7,19 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
     <!-- import d3 and d3-tip JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
     
+    <!-- import leaflet CSS and JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
       integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
       crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
       integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
       crossorigin=""></script>
+    
     <!-- import local CSS -->
     <link rel="stylesheet" href="{{url_for('static',filename = 'styles/style.css')}}">
 
@@ -28,7 +31,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-lg-7 col-sm-12">
+		<div class="col-lg-7 col-sm-12"> <!-- bubble chart area -->
 			<div id="bubbleChartSection"></div>
 			<div id="dataSource">
 				<p>Data Source:</p>
@@ -48,7 +51,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-lg-5 col-sm-12">
+		<div class="col-lg-5 col-sm-12"> <!-- extra chart (bar chart, pie chart and leaflet map) area -->
 			<div id="extraChartSection">
 				<div id="barButton" class="inactive">Bar</div>
 				<div id="pieButton" class="inactive">Pie</div>	
@@ -60,6 +63,7 @@
 	<div id="footer" class="text-center">
 		  <h5 id="teamSection">Project Team Members: Aditi Sharma, Bill Wilson, Gayatri Pingale, Nelson Wang</h5>
 	</div>
+	<!-- import local JS -->
 	<script type="text/javascript" src="{{url_for('static',filename = 'javascripts/index.js')}}"></script>
 </body>
 </html>

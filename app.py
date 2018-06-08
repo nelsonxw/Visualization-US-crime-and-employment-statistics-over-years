@@ -1,7 +1,6 @@
+# import dependencies
 import os
-
 import pandas as pd
-import numpy as np
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -9,8 +8,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 
 from flask import Flask, jsonify, render_template, send_file
-app = Flask(__name__)
-
 
 #################################################
 # Database Setup
@@ -23,31 +20,31 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(engine, reflect=True)
 
-# Save references to each table
-
-print(Base.classes.keys())
-
 state_data = Base.classes.state_final_data
 # Create our session (link) from Python to the DB
 session = Session(engine)
 
+# set up Flask
+app = Flask(__name__)
 
+# define routes
 @app.route("/")
 def index():
-    """Return the homepage."""
+    # Return the homepage
     return render_template('index.html')
 
 @app.route('/images')
 def image():
+	# return the group picture to be used in the popup of leaflet maps
 	return send_file('images/cheers.jpg')
 
 @app.route('/chartdata')
 def chart_data():
-	"""Return a list of state_data"""
-	# Use Pandas to perform the sql query
+	# Return a list of state_data
 	stmt =session.query(state_data).statement
+
+	# Use Pandas to read in data and create a list of dictionary with state data
 	df = pd.read_sql_query(stmt, session.bind)
-    # df = pd.read_csv("masterData.csv")
 	indexed_df = df.set_index(["state_abbrv","state_name","year"])
 	output = []
 	for state, sub_df in indexed_df.groupby(level=["state_abbrv","state_name"]):
@@ -75,10 +72,11 @@ def chart_data():
 		  }
 		output.append(data)
 
-	# Return a list of the column names (sample names)
+	# Return jsonified data for use by the index.js
 	return jsonify(output)
 
 
 if __name__ == "__main__":
+    # get port number of Heroku.  If not specified, default to 5000
     env_port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=env_port, debug=True)

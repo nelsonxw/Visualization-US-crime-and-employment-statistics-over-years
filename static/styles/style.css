@@ -1,3 +1,4 @@
+/*style the overall page*/
 html body div {
   font-family: "Helvetica Neue";
   margin: 0;
@@ -5,11 +6,13 @@ html body div {
   background-color: #DDDDDD;
 }
 
+/*remove margin and padding of all columns and rows*/
 .row, .col {
   margin: 0;
   padding: 0;
 }
 
+/*use flex display to set the footer at the bottom of the page*/
 html, body {
   height: 100%;
 }
@@ -19,6 +22,26 @@ body {
   flex-direction: column;
 }
 
+.row {
+  flex: 1 0 auto;
+}
+
+#footer {
+  background-color: #DDDDDD;
+  flex-shrink: 0;
+  padding-top: 30px;
+}
+
+/*style team members section*/
+#teamSection {
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue";
+  font-weight: bold;
+}
+
+/*style the data source section and observation section*/
 p,h6 {
   margin-left: 50px;
   margin-bottom: 0;
@@ -27,25 +50,6 @@ p,h6 {
 
 ul {
   margin-left: 25px;
-}
-
-.row {
-  flex: 1 0 auto;
-}
-
-#title {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#footer {
-/*  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;*/
-  background-color: #DDDDDD;
-  flex-shrink: 0;
-  padding-top: 30px;
 }
 
 #dataSource li {
@@ -57,51 +61,35 @@ ul {
   font-family: "Helvetica Neue";
 }
 
-#teamSection {
-  vertical-align: middle;
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica Neue";
+/*when mouse over title, change it to pointer*/
+#title {
+  cursor: pointer;
   font-weight: bold;
 }
 
-.barValues {
-  /*font-size: 11px;*/
-  font-weight: bold;
+/*style bubble chart area*/
+.circle { 
+  stroke: #000; 
 }
-
-#extraChartSection {
-    
-    margin-top: 50px;
-}
-
-.circle { stroke: #000; }
 
 .axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
 .yearLabel {
-/*    font-size: 160px;*/
-    fill: gray;
+  fill: gray;
 }
 
 .overlayBox {
-    fill: none;
-    pointer-events: all;
-    cursor: ew-resize;
+  fill: none;
+  pointer-events: all;
+  cursor: ew-resize;
 }
 
-.overlay_e {
-    fill: none;
-    pointer-events: all;
-
-}
-
-.d3-tip {
-  
+/*style d3 tool tips*/
+.d3-tip {  
   font-size: 14px;
   line-height: 1.2;
   padding: 12px;
@@ -123,23 +111,6 @@ ul {
   pointer-events: none;
 }
 
-/* Northward tooltips */
-.d3-tip.n:after {
-  content: "\25BC";
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-  text-align: center;
-}
-
-/* Eastward tooltips */
-.d3-tip.e:after {
-  content: "\25C0";
-  margin: -4px 0 0 0;
-  top: 50%;
-  left: -8px;
-}
-
 /* Southward tooltips */
 .d3-tip.s:after {
   content: "\25B2";
@@ -149,12 +120,13 @@ ul {
   text-align: center;
 }
 
-/* Westward tooltips */
-.d3-tip.w:after {
-  content: "\25B6";
-  margin: -4px 0 0 -1px;
-  top: 50%;
-  left: 100%;
+/*style extra chart areas*/
+#extraChartSection {    
+  margin-top: 50px;
+}
+
+.barValues {
+  font-weight: bold;
 }
 
 hr {
@@ -164,13 +136,13 @@ hr {
   margin-bottom: 5px;
 }
 
+/*style buttons*/
 #playButton {
   position: relative;
   left: 80px;
   background: #ddd;
   padding-left: 7px;
   border-radius: 3px;
-
   width: 45px;
   cursor: pointer;
   height: 25px;
@@ -184,7 +156,6 @@ hr {
   padding-left: 7px;
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
-
   width: 30px;
   cursor: pointer;
   height: 20px;
@@ -192,8 +163,6 @@ hr {
   font-size: 12px;
   font-weight: bold;
 }
-
-
 
 #pieButton {
   position: absolute;
@@ -203,7 +172,6 @@ hr {
   padding-left: 7px;
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
-
   width: 30px;
   cursor: pointer;
   height: 20px;
@@ -212,10 +180,12 @@ hr {
   font-weight: bold;
 }
 
+/*initially buttons are hidden when the class is inactive*/
 .inactive {
   display: none;
 }
 
+/*style the y axis of bar charts*/
 .barYAxis line {
   stroke: #DDDDDD;
 }
@@ -226,14 +196,10 @@ hr {
 
 .barYAxis {
   font-family: "Helvetica Neue";
- /* font-size: 13px;*/
   font-weight: bold;
 }
 
-/*#extra_Chart {
-  height: 300px;
-}*/
-
+/*style the label and text of the pie chart*/
 .crimeType{
   font-weight: bold;
   font-size: 18px;
@@ -246,12 +212,10 @@ hr {
   fill: red;
 }
 
+/*style map section and popups*/
 #mapSection {
-/*  height: 300px;
-  width: 500px;*/
   margin-left: 50px;
   margin-right: 0;
-  /*height: 100%;*/
 }
 
 .leaflet-popup-content-wrapper {
@@ -260,7 +224,7 @@ hr {
   line-height:24px;
   border-radius: 6px;
   text-align: center;
-  }
+}
 
 .leaflet-popup-tip-container {
   width:0px;
@@ -269,12 +233,9 @@ hr {
   border-right: 5px solid transparent;
   border-top: 5px solid white;
   background-color: transparent;
-  }
+}
+
 .leaflet-popup-tip {
-    /*background: "red";*/
-    border: none;
-    box-shadow: none;
-  }
-
-
-
+  border: none;
+  box-shadow: none;
+}
