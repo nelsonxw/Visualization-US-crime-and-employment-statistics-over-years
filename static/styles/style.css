@@ -178,7 +178,7 @@ hr {
 
 #barButton {
   position: absolute;
-  top: 75px;
+  top: 60px;
   left:9px;
   background: #4682B4;
   padding-left: 7px;
@@ -197,7 +197,7 @@ hr {
 
 #pieButton {
   position: absolute;
-  top: 75px;
+  top: 60px;
   left:40px;
   background: #4682B4;
   padding-left: 7px;
