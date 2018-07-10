@@ -7,7 +7,8 @@
 + Nelson Wang
 
 
-### Objectives: Created an interactive web page to visualize US crime and employment statistics over 40 years
+### Objectives:  
+Created an interactive web page to visualize US crime and employment statistics over 40 years
 
 + Part I - An animated bubble chart that allows users explore 50 state data in 5 dimensions and trend over years:
     + unemployment rate
@@ -15,7 +16,9 @@
     + population
     + classification of state
     + years  
-    ![image1](images/Wealth_and_health_of_nations.PNG)  
+      
+    ![image1](images/bubble_chart_1.PNG)![image1](images/bubble_chart_2.PNG)  
+      
 + Part II - A bar chart and pie chart section that is triggered by a click on any bubble in part I.  Animated transitions from bar chart to pie chart, and vice versa, to show breakdown details of crime data of selected state and year.  
 ![image1](images/Wealth_and_health_of_nations.PNG)  
 + Part III - A US map that is triggered by a click on any bubble in part I.  Allow uses to zoom in/zoom out, navigate and and select different states on the map which interactive with charts in Part I and Part II.  
