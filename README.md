@@ -28,7 +28,7 @@ Created an interactive web page to visualize US crime and employment statistics 
 Python, Pandas, HTML, CSS, JavaScript, D3.js, Leaflet, MySQL, SQLite, SQLAlchemy, Flask, Heroku
   
 #### Major Steps:
-+ Download data from source in csv format.  Read into MySQL to clean, merge and save as database.  Use SQLite and SQLAlchemy to import data into Flask
++ Download data from source in csv format.  Read into MySQL to clean, merge and save as database.
 + Use Flask to serve the web site, and use SQLite and SQLAlchemy to read the database and pass to Pandas where data are processed, formatted.  Jasonify the output from Pandas and make it ready for consumptions by JavaScript codes.
-+ Set up website with HTML and CSS, and use D3.js to create interactive bubble charts, bar charts and pie charts.  Use Leaflet to create the interactive map on the website.  
++ Set up the website with HTML, CSS and JavaScript, and use D3.js to create interactive bubble charts, bar charts and pie charts.  Use Leaflet to create the interactive map on the website.  
 #### Code Snippets:
