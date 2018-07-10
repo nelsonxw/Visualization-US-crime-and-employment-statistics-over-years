@@ -1,7 +1,6 @@
 ## Visualization of US Crime and Employment Statistics Over 40 Years
 
-#### Link to web page:
-+ [https://us-crime-employment-statistics.herokuapp.com/](https://us-crime-employment-statistics.herokuapp.com/)
+#### Link to visualization: [https://us-crime-employment-statistics.herokuapp.com/](https://us-crime-employment-statistics.herokuapp.com/)
 
 #### Team Members:
 + Aditi Sharma
@@ -27,3 +26,5 @@ Created an interactive web page to visualize US crime and employment statistics 
 
 #### Tools used:
 Python, HTML, CSS, JavaScript, D3.js, Leaflet, MySQL, SQLite, SQLAlchemy, Flask, Heroku
+  
+#### Code Snippets:
