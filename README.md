@@ -1,4 +1,4 @@
-# Project 2 Proposal
+# Visualization of US Crime and Employment Statistics Over 40 Years
 
 ### Team Members:
 + Aditi Sharma
@@ -7,15 +7,19 @@
 + Nelson Wang
 
 
-### Topic: Best States to Live Based on 50 Years Data
+### Objectives: Created an interactive web page to visualize US crime and employment statistics over 40 years
 
-+ Taking a new approach to analyze and present a classical question asked by many people before us.
-+ Provide interactive charts to allow users exam state data in 5 dimensions and see the trends:
++ Part I - An animated bubble chart that allows users explore 50 state data in 5 dimensions and trend over years:
     + unemployment rate
     + crime rate
     + population
     + classification of state
-    + years
+    + years  
+    ![image1](images/Wealth_and_health_of_nations.PNG)  
++ Part II - A bar chart and pie chart section that is triggered by a click on any bubble in part I.  Animated transitions from bar chart to pie chart, and vice versa, to show breakdown details of crime data of selected state and year.  
+![image1](images/Wealth_and_health_of_nations.PNG)  
++ Part III - A US map that is triggered by a click on any bubble in part I.  Allow uses to zoom in/zoom out, navigate and and select different states on the map which interactive with charts in Part I and Part II.  
+![image1](images/Wealth_and_health_of_nations.PNG)
 
 ### Dataset
 
