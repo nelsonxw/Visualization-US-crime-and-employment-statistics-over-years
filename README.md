@@ -118,3 +118,136 @@ Python, Pandas, HTML, CSS, JavaScript, D3.js, Leaflet, MySQL, SQLite, SQLAlchemy
 	    }
 ```
 + The other interesting feature is transitions between bar chart and pie chart.  Here is the extract of codes that makes it happen.
+```javascript
+		/*define a function to switch to donut(pie) chart when the Pie button is clicked*/
+		function toPie() {
+			/*remove bar chart if it exists*/
+			if (document.querySelector("#barChart")) {
+				d3.selectAll(".bar").remove();
+				d3.selectAll(".barYAxis").remove();
+				d3.selectAll(".barValues").remove();
+				
+				/*use the bar chart's path to start the transition to donut(pie) chart*/
+				extraChartGroup.selectAll("path")
+			        .transition()
+			        .duration(500)
+			        .tween("arc", arcTween);
+
+			    /*
+			    define the function used to do tween on arc.
+			    
+			    credits to https://bl.ocks.org/LiangGou/30e9af0d54e1d5287199, codes have been modified.
+			    the idea here is to first draw an arc like a bar,
+			    then tween the bar-like arc to the donut arc. 
+				Thus, the key is to find the initial bar size and position:
+				The initial bar width is approximated by the length of 
+				outside arc: barWidth = OuterRadius * startAngle. 
+				So we can get the startAngle shown in arcArguments below;
+				(Note that: the measure of angle in d3 starts from vertical y:
+				 y    angle
+				 |    /   
+				 |   /        
+				 |  /             
+				 |o/
+				 |/      
+				 )   
+				*/
+			    function arcTween(d) {			      
+			        /*define the path of each tween*/
+			        var path = d3.select(this);
+			        /*get the starting y position of each bar*/
+			        var y0 = d.index * yBandScale_extraChart.bandwidth();
+			     
+			        return function(t) {
+			            /*t starts from 0 and ends with 1.  Use cosine to calculate a, a stepping factor that changes from 1 to 0*/
+			            var a = Math.cos(t * Math.PI / 2);
+			            /*define radius r as a function of chart height.  at the beginning, t is 0 so r is very big, which can render 
+			            the arc like a bar.  when t changes to 1, r is reduced to chart height or 1/2 of height based on device screen size*/
+			            var r = (1 + a) * height_extraChart / (windowWidth > 992? 1 : 2) / Math.min(1, t + .005);
+			            /*define xx and yy as the central position of arc, and xx and yy change with stepping factor a, until it becomes
+			            (1/2 of width, height)*/
+			            var yy = r + a * y0;
+			            var xx = ((1 - a) * width_extraChart / 2);
+			            
+			            /*define arguments used to create arc*/
+			            var arcArguments = {
+			                    /*inially the delta between inner and outer radius is the bandwidth or height of bar */
+			                    innerRadius: (1-a) * r * .5 + a * (r - yBandScale_extraChart.bandwidth()),
+			                    outerRadius: r,
+			                    /*start and end angle come from d3.pie() created earlier when data was bound to bars, and keeps changing 
+			                    with stepping factor a*/
+			                    startAngle: (1 - a) * d.startAngle,
+			                    endAngle: a * (Math.PI / 2) + (1 - a) * d.endAngle
+			                };
+
+			            /*shift the central locations of the arc and generate the arc*/
+			            path.attr("transform", `translate(${xx},${yy})`);
+			            console.log(xx,yy,r);
+			            path.attr("d", arc(arcArguments));
+			            
+			            /*create events on the path*/
+			            path.on("mouseover",showSliceInfo);
+			            path.on("mouseout",hideSliceInfo);
+
+					    /*define a function to highlight and display info of each bar or slice of donut chart when moused over*/
+					    function showSliceInfo() {
+							/*for donut/pie chart, highlight the selection and show relevant info*/
+							console.log("check",xx,yy,r);
+							if(document.querySelector("#pieChart")) {
+								var slice = d3.select(this)
+									.attr("stroke","#fff")
+		              				.attr("stroke-width","2px");
+								/*get the index of which slice has been selected*/
+								var sliceIndex = (slice._groups[0][0].__data__.index);
+								var sliceType = clickedData[sliceIndex].type;
+								var slicePercent = clickedData[sliceIndex].percent;
+								
+								/*display info of highlighted slice*/
+								svg_extraChart.append("g").append("text")
+								  .attr("class", "crimeType")
+								  .attr("text-anchor", "middle")
+								  .style("font-size", 18 * screenRatio + "px")
+								  .attr("x",xx + margin_extraChart.left) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .attr("y",yy + margin_extraChart.top - 5 * screenRatio) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .text(`${sliceType}`);
+
+								svg_extraChart.append("g").append("text")
+								  .attr("class", "crimePercent")
+								  .attr("text-anchor", "middle")
+								  .style("font-size", 14 * screenRatio + "px")
+								  .attr("x",xx + margin_extraChart.left) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .attr("y",yy + margin_extraChart.top + 20 * screenRatio) /*from the arc center, add the same margin as bar chart and its path shifted*/
+								  .text(function () {
+								  	return d3.format(".1%")(`${slicePercent}`);
+								  	});
+
+							/*for bar charts, just highlight the selected bar*/
+							} else {
+								var selection = d3.select(this);
+								highlight(selection);
+							}
+						}
+
+						/*define a function to remove highlight and info when mouse out*/
+						function hideSliceInfo() {
+							if(document.querySelector("#pieChart")) {
+								var slice = d3.select(this)
+									.attr("stroke","none");
+
+		              			d3.select(".crimeType").remove();	
+		              			d3.select(".crimePercent").remove();	
+								
+							} else {
+								var selection = d3.select(this);
+								unhighlight(selection);
+							}
+						}
+			        };
+			    }
+			}
+
+			/*after pie chart is created, change the chart ID to pieChart*/
+			d3.select("#extraChartSection").select("svg")
+					.attr("id","pieChart");
+			}
+```
