@@ -1,11 +1,13 @@
 ## Visualization of US Crime and Employment Statistics Over 40 Years
 
+#### Link to web page:
++ [https://us-crime-employment-statistics.herokuapp.com/](https://us-crime-employment-statistics.herokuapp.com/)
+
 #### Team Members:
 + Aditi Sharma
 + Bill Wilson
 + Gayatri Pingale
 + Nelson Wang
-
 
 #### Objectives:  
 Created an interactive web page to visualize US crime and employment statistics over 40 years.
@@ -18,12 +20,10 @@ Created an interactive web page to visualize US crime and employment statistics 
 + Part III - A US map that is triggered by a click on any bubble in part I.  Allow uses to zoom in/zoom out, navigate and and select different states on the map which interactive with charts in Part I and Part II.  
 ![image1](images/map.PNG)
 
-#### Dataset
+#### Dataset:
 
 + [Bureau of Labor Statistics](https://www.bls.gov/lau/rdscnp16.htm)
 + [Uniform Crime Reporting Statistics](https://www.bjs.gov/ucrdata/Search/Crime/State/StatebyState.cfm?NoVariables=Y&CFID=247193930&CFTOKEN=b6105fea0ed761eb-FDFE448E-D159-1EA8-A5EFE168BA588D99)
 
-#### Link to web page
-+ [https://us-crime-employment-statistics.herokuapp.com/](https://us-crime-employment-statistics.herokuapp.com/)
-
-
+#### Tools used:
+Python, HTML, CSS, JavaScript, D3.js, Leaflet, MySQL, SQLite, SQLAlchemy, Flask, Heroku
