@@ -16,8 +16,9 @@ Created an interactive web page to visualize US crime and employment statistics 
     + population
     + classification of state
     + years  
+<img src="images/bubble_chart_1.PNG" width="400"> <img src="images/bubble_chart_2.PNG" width="400">
+
       
-    ![image1](images/bubble_chart_1.PNG)![image1](images/bubble_chart_2.PNG)  
       
 + Part II - A bar chart and pie chart section that is triggered by a click on any bubble in part I.  Animated transitions from bar chart to pie chart, and vice versa, to show breakdown details of crime data of selected state and year.  
 ![image1](images/Wealth_and_health_of_nations.PNG)  
